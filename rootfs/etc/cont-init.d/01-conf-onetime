@@ -1,0 +1,67 @@
+#!/usr/bin/with-contenv sh
+# vim:set ft=sh sw=2 sts=2 st=2 et:
+
+UMASK=${UMASK:-002}
+AIR_USR=${AIR_USR:-airsonic}
+AIR_GRP=${AIR_GRP:-airsonic}
+AIR_UID=${AIR_UID:-618}
+AIR_GID=${AIR_GID:-618}
+CURR_AIR_UID=$(getent passwd ${AIR_USR} | tr ':' ' ' | awk '{print $3}')
+CURR_AIR_GID=$(getent passwd ${AIR_GRP} | tr ':' ' ' | awk '{print $3}')
+# ensure the group airsonic exist no matter what
+if ! getent group ${AIR_GID}  > /dev/null; then
+  groupadd -r -g ${AIR_GID} -f ${AIR_GRP} > /dev/null 2>&1
+fi
+# ensure the user airsonic exist no matter what
+if ! getent passwd ${AIR_UID}  > /dev/null; then
+  useradd --system \
+    --shell /bin/false \
+    --no-create-home \
+    --home-dir /airsonic \
+    --uid ${AIR_UID} \
+    --gid ${AIR_GID} \
+    --comment 'Airsonic Server' ${AIR_USR} > /dev/null 2>&1
+fi
+
+if [[ "${CURR_AIR_GID}" != "${AIR_GID}" ]] ; then
+  # del airsonic group if they exist
+  groupdel airsonic 2> /dev/null
+  # create group with AIR_GID
+  groupadd -f -g ${AIR_GID} ${AIR_USR} > /dev/null 2>&1
+fi
+if [[ "${CURR_AIR_UID}" != "${AIR_UID}" ]] ; then
+  # del airsonic user if they exist
+  userdel -f airsonic 2> /dev/null
+  # create user with AIR_UID
+  useradd --system \
+    --shell /bin/false \
+    --no-create-home \
+    --home-dir /airsonic \
+    --uid ${AIR_UID} \
+    --gid ${AIR_GID} \
+    --comment 'Airsonic Server' ${AIR_USR} > /dev/null 2>&1
+fi
+
+# ensure dirs exist
+[[ -d /data ]] || mkdir /data
+[[ -d /podcasts ]] || mkdir /podcasts
+[[ -d /playlists ]] || mkdir /playlists
+[[ -d /data/transcode ]] || mkdir /data/transcode
+ln -s /usr/bin/ffmpeg /data/transcode/ffmpeg
+ln -s /usr/bin/lame /data/transcode/lame
+
+# ensure perms on /airsonic are good
+CURR_SID=$(stat -c"%u:%g" /airsonic)
+if [[ "${CURR_SID}" != "${AIR_UID}:${AIR_GID}" ]] ; then
+  chown -Rc ${AIR_UID}:${AIR_GID} /airsonic
+fi
+# ensure perms on /podcasts are good
+CURR_SID=$(stat -c"%u:%g" /podcasts)
+if [[ "${CURR_SID}" != "${AIR_UID}:${AIR_GID}" ]] ; then
+  chown -Rc ${AIR_UID}:${AIR_GID} /podcasts
+fi
+# ensure perms on /playlists are good
+CURR_SID=$(stat -c"%u:%g" /playlists)
+if [[ "${CURR_SID}" != "${AIR_UID}:${AIR_GID}" ]] ; then
+  chown -Rc ${AIR_UID}:${AIR_GID} /playlists
+fi
