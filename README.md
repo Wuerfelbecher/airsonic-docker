@@ -1,8 +1,8 @@
-# airsonic Docker Container based on alpine
+# airsonic Docker Image based on alpine
 [airsonicurl]: https://github.com/airsonic/airsonic
 [![airsonic](https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/airsonic-banner.png)][airsonicurl]
 
-This is my airsonic Docker container based on alpine image with s6-overlay runs as non root by default.
+This is my airsonic Docker Image based on alpine image with s6-overlay runs as non root by default.
 
 ## Usage
 
@@ -29,7 +29,7 @@ Wuerfelbecher/airsonic-docker
 # This is only a sample, please change the contents to fit your environment
 [Unit]
 Description=Airsonic Media Server
-After=network.target local-fs.target remote-fs.target
+After=network.target local-fs.target remote-fs.target docker.service
 
 [Service]
 ExecStartPre=-/usr/bin/docker rm -f airsonic
