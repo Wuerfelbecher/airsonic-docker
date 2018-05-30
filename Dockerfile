@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.7
 ARG   S6VERSION=1.21.4.0
 ARG   VERSION=10.1.1
 ENV   AIR_UID=618 \
@@ -8,13 +8,12 @@ ENV   AIR_UID=618 \
       AIR_JAVA_OPTS="-Xmx512m" \
       AIR_CONTEXTPATH="/" \
       S6_KEEP_ENV=1
-RUN echo "@community https://nl.alpinelinux.org/alpine/v3.6/community" >> /etc/apk/repositories \
- && apk -U upgrade && apk add --update \
+RUN apk -U upgrade && apk add --update \
     ffmpeg \
     libressl \
     shadow \
     ca-certificates \
-    openjdk8-jre@community \
+    openjdk8-jre \
  && wget -q https://github.com/airsonic/airsonic/releases/download/v${VERSION}/airsonic.war -O /airsonic.war \
  && rm -f /var/cache/apk/* \
  && groupadd --system --gid ${AIR_GID} ${AIR_GRP} \
