@@ -1,6 +1,6 @@
 # airsonic Docker Image based on alpine
 [airsonicurl]: https://github.com/airsonic/airsonic
-[![airsonic](https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/airsonic-banner.png)][airsonicurl]
+[![airsonic](https://raw.githubusercontent.com/airsonic/airsonic/master/contrib/assets/logos/airsonic_dark_1400x400.svg?sanitize=true)][airsonicurl]
 
 This is my airsonic Docker Image based on alpine image with s6-overlay runs as non root by default.
 
@@ -18,7 +18,7 @@ docker run \
 -e AIR_CONTEXTPATH=<url-base> \
 -p 4040:4040 \
 -m 512m \
-Wuerfelbecher/airsonic-docker
+wuerfelbecher/airsonic-docker
 
 ```
 
@@ -33,7 +33,7 @@ After=network.target local-fs.target remote-fs.target docker.service
 
 [Service]
 ExecStartPre=-/usr/bin/docker rm -f airsonic
-ExecStartPre=-/usr/bin/docker pull Wuerfelbecher/airsonic-docker
+ExecStartPre=-/usr/bin/docker pull wuerfelbecher/airsonic-docker
 ExecStart=/usr/bin/docker run \
     --rm --name=airsonic \
     -v /srv/airsonic/data:/airsonic \
@@ -41,7 +41,7 @@ ExecStart=/usr/bin/docker run \
     -v /srv/airsonic/podcasts:/podcasts \
     -v /mnt/music:/music \
     -p 4040:4040 \
-    -m 512m Wuerfelbecher/airsonic-docker
+    wuerfelbecher/airsonic-docker
 
 [Install]
 WantedBy=multi-user.target
@@ -57,7 +57,6 @@ WantedBy=multi-user.target
 | `-v /music` | Location of music |
 | `-v /playlists` | Location for playlists |
 | `-v /podcasts` | Location of podcasts |
-| `-m 512m` | Limits the container to 512MiB RAM |
 
 | Variable  | Function |
 | :---:     | --- |
@@ -65,6 +64,7 @@ WantedBy=multi-user.target
 | `AIR_GRP` | for custom GroupName, Defaults to **airsonic**|
 | `AIR_UID` | for custom UserID, Defaults to **618** |
 | `AIR_GID` | for custom GroupID, Defaults to **618** |
+| `AIR_JAVA_OPTS`  | for custom Java Options, Defaults to **-Xmx512m** |
 | `CONTEXT_PATH` | for setting the url-base, Defaults to **/** |
 
 ## License

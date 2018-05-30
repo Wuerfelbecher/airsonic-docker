@@ -4,6 +4,7 @@ with-contenv
 importas AIR_CONTEXTPATH AIR_CONTEXTPATH
 importas AIR_UID AIR_UID
 importas AIR_GID AIR_GID
+importas AIR_JAVA_OPTS AIR_JAVA_OPTS
 cd /airsonic
 s6-setuidgid ${AIR_UID}:${AIR_GID}
-java -Dserver.host=0.0.0.0 -Dserver.port=4040 -Dserver.contextPath=${AIR_CONTEXTPATH} -Dairsonic.home=/airsonic -Dairsonic.host=0.0.0.0 -Dairsonic.port=4040 -Dairsonic.contextPath=${AIR_CONTEXTPATH} -Dairsonic.defaultMusicFolder=/music -Dairsonic.defaultPodcastFolder=/podcasts -Dairsonic.defaultPlaylistFolder=/playlists -Djava.awt.headless=true -jar /airsonic.war
+java ${AIR_JAVA_OPTS} -Dserver.host=0.0.0.0 -Dserver.port=4040 -Dserver.contextPath=${AIR_CONTEXTPATH} -Dairsonic.home=/airsonic -Dairsonic.host=0.0.0.0 -Dairsonic.port=4040 -Dairsonic.contextPath=${AIR_CONTEXTPATH} -Dairsonic.defaultMusicFolder=/music -Dairsonic.defaultPodcastFolder=/podcasts -Dairsonic.defaultPlaylistFolder=/playlists -Djava.awt.headless=true -jar /airsonic.war

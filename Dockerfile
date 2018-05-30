@@ -5,6 +5,7 @@ ENV   AIR_UID=618 \
       AIR_GID=618 \
       AIR_USR="airsonic" \
       AIR_GRP="airsonic" \
+      AIR_JAVA_OPTS="-Xmx512m" \
       AIR_CONTEXTPATH="/" \
       S6_KEEP_ENV=1
 RUN echo "@community https://nl.alpinelinux.org/alpine/v3.6/community" >> /etc/apk/repositories \
