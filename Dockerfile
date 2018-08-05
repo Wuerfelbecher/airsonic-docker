@@ -1,6 +1,6 @@
 FROM alpine:3.8
 ARG   S6VERSION=1.21.4.0
-ARG   VERSION=10.1.1
+ARG   VERSION=10.1.2
 ENV   AIR_UID=618 \
       AIR_GID=618 \
       AIR_USR="airsonic" \
