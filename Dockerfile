@@ -1,6 +1,6 @@
 FROM alpine:3.8
-ARG   S6VERSION=1.21.7.0
-ARG   VERSION=10.1.2
+ARG   S6VERSION=1.21.8.0
+ARG   VERSION=10.2.0
 ENV   AIR_UID=618 \
       AIR_GID=618 \
       AIR_USR="airsonic" \
@@ -31,6 +31,6 @@ ADD rootfs /
 EXPOSE 4040
 VOLUME /airsonic /music /podcasts /playlists
 LABEL description="Open source media streamer" \
-      airsonic="Airsonic v$VERSION" \
+      airsonic="Airsonic v10.2.0" \
       maintainer="Wuerfelbecher"
 ENTRYPOINT ["/init"]
