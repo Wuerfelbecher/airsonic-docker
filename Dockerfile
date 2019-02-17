@@ -31,6 +31,6 @@ ADD rootfs /
 EXPOSE 4040
 VOLUME /airsonic /music /podcasts /playlists
 LABEL description="Open source media streamer" \
-      airsonic="Airsonic v$VERSION" \
+      airsonic="Airsonic v10.1.2" \
       maintainer="Wuerfelbecher"
 ENTRYPOINT ["/init"]
